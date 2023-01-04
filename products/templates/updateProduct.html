@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} Update Product  {% endblock title %}
+
+
+{% block content %}
+    
+<div class="container">
+    <div class="col-md-8 offset-2">
+            <div class="row">
+                <row class="alert alert-info text-center py-2"><h3>Update Product</h3></row>
+
+            <form action="" method='post' enctype='multipart/form-data'>
+                {% csrf_token %}
+
+                {{form|crispy}}
+
+                <button type="submit" name='submit' class="btn btn-primary mt-2 mb-4">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+      
+{% endblock content %}
+    
+

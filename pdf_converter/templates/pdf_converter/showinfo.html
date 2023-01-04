@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %} Show Information  {% endblock title %}
+
+
+{% block content %}
+    
+    <div class="container">
+        <div class="row my-5 justify-content-center">
+            <h1 class='mb-4'>Show Information</h1>
+
+            <div class="col-md-12">
+
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Is Published</th>
+                        <th scope="col">Created At</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                        {% for product in products %}
+                            <tr>
+                                <th scope="row">{{product.id}}</th>
+                                <td><img src="{{product.image.url}}" alt="product_image" class="img-fluid" style="height: 5em; border-radius: 6px;"></td>
+                                <td>{{product.name}}</td>
+                                <td>{{product.category.name}}</td>
+                                <td>{{product.price}}</td>
+                                <td>{{product.is_published}}</td>
+                                <td>{{product.created_at}}</td>
+                            </tr>
+                        {% endfor %}
+                      
+                    </tbody>
+                  </table>
+                
+            </div>  
+
+            <a href="{% url 'pdf_report' %}" class="btn btn-warning my-4 d-block">Download PDF</a>
+        </div>
+
+
+    </div>
+      
+{% endblock content %}
+    
+

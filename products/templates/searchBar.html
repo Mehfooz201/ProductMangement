@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %} Search  {% endblock title %}
+
+
+{% block content %}
+    
+    <div class="container">
+        <div class="row justify-content-center my-4">
+            {% if products %}
+                <h4>Search Results</h4>
+                <hr>
+                
+                {% for product in products %}
+                    <div class="col-md-4 mb-5" >
+                        <div class="card border-1" style="width: 18rem; box-shadow: 4px 4px  #efe3fc; border-radius: 24px;" >
+                            <img src="{{product.image.url}}" class="card-img-top img-fluid" alt="products_img" style="height: 19em; border-radius: 24px;">
+                            <div class="card-body">
+                            <h5 class="card-title">{{product.name}}</h5>
+                            <h6 class="card-subtitle text-danger">$ {{product.price}}</h6>
+                            <p class="card-text">{{product.description}}</p>
+                            <hr>
+                            <a href=" {% url 'productDetails' product.pk %}" style="background-color: blueviolet; border-style: none;" class="btn btn-primary my-2">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            {% else %}
+
+                <h4>Search result for <span class='fw-bold'>"{{query}}"</span> is not found. </h4>
+                <hr>
+
+            {% endif %}
+        </div>
+
+
+    </div>
+      
+{% endblock content %}
+    
+

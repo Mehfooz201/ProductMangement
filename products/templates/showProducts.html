@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %} Show Product  {% endblock title %}
+
+
+{% block content %}
+    
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-sm-3">
+                <h4>Category</h4>
+
+                <li class="list-group">
+                    <a href="{% url 'showProducts' %}" class="list-group-item list-group-item-action active">
+                        All
+                    </a>
+                </li>
+
+                {% for category in categories %}
+
+                    <li class="list-group">
+                        <a href="{% url 'showProducts' %}?category={{category.name}}" class="list-group-item list-group-item-action">{{category.name}}</a>
+                    </li>
+
+                {% endfor %}
+                
+            </div>
+
+
+            <div class="col-sm-9">
+                <div class="row">
+                {% if products %}
+                    {% for product in products %}
+                        <div class="col-sm-4 mb-4" >
+                            <div class="card border-1" style="width: 16rem; box-shadow: 4px 4px  #efe3fc; border-radius: 24px;" >
+                                <img src="{{product.image.url}}" class="card-img-top img-fluid" alt="products_img" style="height: 16em; border-radius: 24px;">
+                                <div class="card-body">
+                                <h5 class="card-title">{{product.name}}</h5>
+                                <h6 class="card-subtitle text-danger">$ {{product.price}}</h6>
+                                <p class="card-text">{{product.description}}</p>
+                                <hr>
+                                <a href=" {% url 'productDetails' product.pk %}" style="background-color: blueviolet; border-style: none;" class="btn btn-primary my-2">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                {% else %}
+                    <h4>There is no Products yet !</h4>
+                {% endif %}
+            </div>
+
+            </div>
+        </div>
+
+        <div class="row text-center my-5">
+                <div class="col-md-12 m-3">
+                    {% if products.has_other_pages %}
+
+                        <ul class="pagination ">
+
+                            {% if products.has_previous %}
+                                <li class="page-item">
+                                    <a href="?page={{products.previous_page_number}}" class='page-link'>&laquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a href="?page=1" class='page-link'>&laquo;</a>
+                                </li> 
+                            {% endif %}
+
+
+
+                            {% for i in products.paginator.page_range %}
+                                {% if products.number == i %}
+                                    <li class='page-item active'>
+                                        <a href="?page={{i}}" class='page-link'>{{i}}</a>
+                                    </li>
+                                {% else %}
+                                    <li class='page-item '>
+                                    <a href="?page={{i}}" class='page-link'>{{i}}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+
+
+
+                            {% if products.has_next %}
+                                <li class="page-item">
+                                    <a href="?page={{products.next_page_number}}" class='page-link'>&raquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a href="?page={{products.paginator.number_pages}}" class='page-link'>&raquo;</a>
+                                </li> 
+                            {% endif %}
+
+                        </ul>
+
+                    {% endif %}
+
+                </div>
+        </div>
+
+    </div>
+      
+{% endblock content %}
+    
+
