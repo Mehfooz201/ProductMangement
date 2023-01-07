@@ -1,11 +1,17 @@
 from django import forms
-from . models import Product, Category
+from . models import Product, Category, Comment
 
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['image', 'name',  'category', 'price', 'description', 'is_published']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('comment_body',)
 
         
         # widgets = {

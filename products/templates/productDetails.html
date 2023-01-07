@@ -1,6 +1,8 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
-{% block title %} Product Details  {% endblock title %}
+
+{% block title %} Product Details {% endblock title %}
 
 
 {% block content %}
@@ -8,8 +10,8 @@
 <div class="container">
     <div class="row ">
         <div class="col-md-4">
-            <a href="{% url 'showProducts' %}" class="btn btn-primary mt-2">Back</a>
-            <div class="card m-4" style="width: 18rem;">
+            <a href="{% url 'showProducts' %}" class="btn btn-primary mt-4">Back</a>
+            <div class="card my-4" style="width: 18rem;">
                 <img src="{{eachProduct.image.url}}" class="card-img-top img-fluid" alt="..." >
                 <div class="card-body">
                 <h5 class="card-title">{{eachProduct.name}}</h5>
@@ -24,6 +26,36 @@
             </div>
         </div>
     </div>
+
+    
+
+    <div class="row my-5">
+        <div class="col-md-12">
+            <h5>Comments ({{num_comments}})</h5>
+    <hr>
+            {% if not eachProduct.comments.all %}
+                <p>No Comments added yet.</p>
+            {% else %}
+                {% for comment in eachProduct.comments.all  %}
+                    <h4>{{comment.commentor_name}}</h4>
+                    <p>{{comment.comment_body}}</p>
+                    <p><small>{{comment.date_added}}</small></p>
+                {% endfor %}
+            {% endif %}
+        
+    <hr>
+
+            <form action="" method='post' class='my-4'>
+                {% csrf_token %}
+
+                {{form|crispy}}
+
+            <button type="submit" name='submit' class="btn btn-primary mt-2 mb-4">Add Comment</button>
+
+
+        </div>
+    </div>
+
 </div>
       
 {% endblock content %}

@@ -1,7 +1,8 @@
+import datetime
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from .models import Product, Category
-from .forms import ProductForm
+from .models import Product, Category, Comment
+from .forms import ProductForm, CommentForm
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='accounts/login')
@@ -32,13 +33,36 @@ def showAllProduct(request):
         }
     return render(request, 'showProducts.html', context)
 
+
+
 @login_required(login_url='accounts/login')
 def productDetails(request, pk):
     eachProduct = Product.objects.get(id=pk)
+    form = CommentForm(instance=eachProduct)
+    num_comments = Comment.objects.filter(product=eachProduct).count()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, instance=eachProduct)
+        if form.is_valid():
+            name = request.user.username
+            body = form.cleaned_data['comment_body']
+            c = Comment(product=eachProduct, commentor_name=name, comment_body=body, date_added=datetime.datetime.now())
+            c.save()
+            return redirect('showProducts')
+        else:
+            print('Form is invalid')
+    else:
+        form = CommentForm()
+
     context = {
-        'eachProduct':eachProduct
+        'eachProduct':eachProduct,
+        'form':form,
+        'num_comments' : num_comments
         }
     return render(request, 'productDetails.html', context)
+ 
+
+
 
 @login_required(login_url='accounts/login')
 def addProducts(request):
