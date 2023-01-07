@@ -8,6 +8,8 @@ Product Mangement - Mini Project
   => Search Functionality
   => Category wise
   => Admin Control
+  => Comments Section
+  => User Authenticated 
   
 
 # Products
